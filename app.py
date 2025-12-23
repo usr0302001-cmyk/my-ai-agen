@@ -7,7 +7,7 @@ st.set_page_config(page_title="AI見積エージェント", layout="wide")
 st.title("🎯 キャンペーン戦略・見積AIエージェント")
 
 # 2. APIキーの設定
-genai.configure(api_key="AIzaSyDW-1zglX-8H3X9Zt2dVYXX76L0dSoG46c")
+genai.configure(api_key="AIzaSyAFsilIzfMzV2oBZWeanWEIkTYlH7ePwZ0")
 
 # 3. 入力エリア
 minutes = st.text_area("💼 議事録またはキャンペーン案をペーストしてください", height=200)
