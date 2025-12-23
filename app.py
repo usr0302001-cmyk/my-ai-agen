@@ -15,7 +15,7 @@ minutes = st.text_area("💼 議事録またはキャンペーン案をペース
 if st.button("🚀 分析・見積を開始する"):
     if minutes:
         # モデル名を修正しました
-        model = genai.GenerativeModel('models/gemini-1.5-flash-latest')
+        model = genai.GenerativeModel('gemini-1.5-flash')
         
         with st.spinner("AIが戦略を立案中..."):
             tab1, tab2, tab3 = st.tabs(["📊 見積・条件案", "👥 ターゲット・ペルソナ", "📝 ヒアリングシート"])
