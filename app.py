@@ -4,7 +4,7 @@ import streamlit as st
 st.set_page_config(page_title="Fanspot 見積エージェント", layout="wide")
 st.title("🎯 Fanspot 案件見積エージェント")
 
-# 2. サイドバーに入力項目（OCRを削除）
+# 2. サイドバーに入力項目
 st.sidebar.header("📋 条件入力")
 period = st.sidebar.number_input("施策期間 (月数)", min_value=1, value=2)
 winners = st.sidebar.number_input("当選者数", min_value=0, value=10000, step=1000)
@@ -13,14 +13,14 @@ update = st.sidebar.number_input("ページ更新回数", min_value=0, value=1)
 
 # 3. 見積算出ロジック
 if st.sidebar.button("🚀 見積もりを算出"):
-    # 事務局と目検のロジック計算
+    # ロジック計算
     j_months = period + 1
     m_count = winners * 2
     m_cost = m_count * 1000
     
     iw_cost = 3000000 if is_iw == "有り" else 0
     
-    # 各種費用の合計計算
+    # 費用合計
     init_costs = 3500000 + 1000000 + iw_cost + m_cost + 50000
     oper_costs = (650000 * period) + (400000 * j_months) + (1000000 * update)
     total_cost = init_costs + oper_costs
@@ -42,7 +42,6 @@ if st.sidebar.button("🚀 見積もりを算出"):
         st.write(f"・FanSpot ページ更新費 ({update}回): {1000000*update:,}円")
     
     st.divider()
-    # 5. 注釈の強化
-    st.warning("⚠️ **注釈：上記見積には、LINE配信費用、クリエイティブ制作費用（デザイン・コーディング等）、および「賞品代」「発送費」は含まれておりません。**")
-else:
-    st.info("左側のメニューで条件を選び、ボタンを押してください。")
+    
+    # 5. 💡 設定値（算出ロジック）の可視化
+    st.markdown("### 🔍 算出ロ
