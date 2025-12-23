@@ -1,50 +1,45 @@
 import streamlit as st
 import google.generativeai as genai
 
-# 1. ページ基本設定
-st.set_page_config(page_title="Fanspot 見積エージェント", layout="wide")
-st.title("🎯 Fanspot 案件見積・分析エージェント")
+# 1. 基本設定
+st.set_page_config(page_title="Fanspot見積エージェント", layout="wide")
+st.title("🎯 Fanspot 案件見積エージェント")
 
-# 2. APIキー設定
+# 2. 最新APIキー（直書きで接続を安定させます）
+# もしこれでも404が出る場合は、APIキー自体の問題なので新しいキーに差し替えてください
 genai.configure(api_key="AIzaSyDW-1zglX-8H3X9Zt2dVYXX76L0dSoG46c")
 
-# 3. 入力エリア
-st.markdown("### 📋 キャンペーン情報を貼り付けてください")
-minutes = st.text_area("「2ヶ月」「当選1万人」などの情報をここに貼ってください", height=200)
+# 3. 入力画面（スプシを見なくても、ここで項目を入力すればOK）
+st.markdown("### 📋 キャンペーン条件を入力してください")
+col1, col2 = st.columns(2)
+with col1:
+    period = st.number_input("施策期間 (月数)", min_value=1, value=2)
+    winners = st.number_input("当選者数", min_value=0, value=10000)
+    update = st.number_input("ページ更新回数", min_value=0, value=1)
+with col2:
+    is_iw = st.radio("インスタントウィン", ["有り", "無し"])
+    has_ocr = st.radio("OCR解析機能", ["有り", "無し"])
+    campaign_detail = st.text_input("キャンペーン名/内容", value="オロナミンC レシート応募")
 
-if st.button("🚀 見積・分析を開始する"):
-    if not minutes.strip():
-        st.warning("⚠️ 内容を入力してください。")
-    else:
-        # モデル呼び出しを最新の安定版に固定
-        try:
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            
-            with st.spinner("専用ロジックで計算中..."):
-                # 見積ロジック
-                logic = """
-                あなたは熟練のプランナーです。以下の単価ルール（税抜）を厳守して見積を作成してください。
-                【初期費用】
-                ・Fanspot 初期設定：3,500,000円
-                ・レシート応募実装：1,000,000円
-                ・OCR解析：3,000,000円
-                ・インスタントウィン実装：3,000,000円（※有りの場合）
-                ・目検作業費：当選者数の2倍 × 1,000円
-                ・抽選費用：50,000円
-                【運用費用】
-                ・月額費用：650,000円 × 期間
-                ・事務局費：400,000円 × (期間 + 1ヶ月)
-                ・ページ更新：1,000,000円 × 回数
-                """
-                
-                # 生成実行
-                response = model.generate_content(f"{logic}\n\n条件：\n{minutes}")
-                
-                # 結果表示
-                st.markdown("### 📊 自動生成された見積書")
-                st.write(response.text)
-                st.divider()
-                st.warning("⚠️ **注釈：上記見積には、LINE配信費用および制作費用は含まれておりません。**")
+# 4. 見積実行ボタン
+if st.button("🚀 見積・分析を実行"):
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        # Pythonコード内に「見積ロジック」を完全に固定
+        logic = f"""
+        あなたは熟練のプランナーです。以下の条件と単価ルールを厳守して見積書を作成してください。
+        
+        【条件】
+        ・キャンペーン：{campaign_detail}
+        ・期間：{period}ヶ月
+        ・当選数：{winners}名
+        ・インスタントウィン：{is_iw}
+        ・更新回数：{update}回
+        ・OCR：{has_ocr}
 
-        except Exception as e:
-            st.error(f"実行中にエラーが発生しました: {str(e)}")
+        【単価ルール（税抜）】
+        1. 初期費用
+           - Fanspot初期設定：3,500,000円
+           - レシート応募実装：1,000,000円
+           - OCR解析：3,000,000円（※有りの場合）
