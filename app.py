@@ -2,11 +2,11 @@ import streamlit as st
 import google.generativeai as genai
 from datetime import datetime, timedelta
 
-# 画面のタイトルと設定
+# 画面設定
 st.set_page_config(page_title="AI見積エージェント", layout="wide")
 st.title("🎯 キャンペーン戦略・見積AIエージェント")
 
-# あなたのGemini APIキーを設定（後で安全な方法に変えられますが、まずは直書きでOK）
+# APIキーの設定
 genai.configure(api_key="AIzaSyDW-1zglX-8H3X9Zt2dVYXX76L0dSoG46c")
 
 # 入力欄
@@ -14,14 +14,16 @@ minutes = st.text_area("💼 議事録またはキャンペーン案をペース
 
 if st.button("🚀 分析・見積を開始する"):
     if minutes:
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # モデル名を修正しました
+        model = genai.GenerativeModel('models/gemini-1.5-flash')
         
         with st.spinner("AIが戦略を立案中..."):
-            # あのサイトのようにタブで表示を分ける
             tab1, tab2, tab3 = st.tabs(["📊 見積・条件案", "👥 ターゲット・ペルソナ", "📝 ヒアリングシート"])
             
+            # 本日の3日後を計算
+            deadline = (datetime.now() + timedelta(days=3)).strftime("%Y/%m/%d")
+            
             with tab1:
-                deadline = (datetime.now() + timedelta(days=3)).strftime("%Y/%m/%d")
                 res = model.generate_content(f"議事録から施策名、マストバイ条件、概算見積を詳細に出して。確認期限は{deadline}として。:\n{minutes}")
                 st.markdown(res.text)
                 
