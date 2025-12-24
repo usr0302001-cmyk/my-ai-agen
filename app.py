@@ -1,6 +1,6 @@
 import streamlit as st
 
-# 1. ページ基本設定（ブラウザのタブ名）
+# 1. ページ基本設定
 st.set_page_config(page_title="マストバイCP見積もりエージェント", layout="wide")
 st.title("🎯 マストバイCP見積もりエージェント")
 
@@ -12,13 +12,13 @@ winners = st.sidebar.number_input("当選者数", min_value=0, value=10000, step
 is_iw = st.sidebar.radio("インスタントウィン", ["有り", "無し"])
 update = st.sidebar.number_input("ページ更新回数", min_value=0, value=1)
 
-# 3. 見積計算ロジック（正確な固定レート）
+# 3. 見積計算ロジック
 j_months = period + 1
 m_count = winners * 2
 m_cost = m_count * 1000
 iw_cost = 3000000 if is_iw == "有り" else 0
 
-# 各種費用の計算
+# 各費用の計算
 init_costs = 3500000 + 1000000 + iw_cost + m_cost + 50000
 oper_costs = (650000 * period) + (400000 * j_months) + (1000000 * update)
 total_cost = init_costs + oper_costs
@@ -37,4 +37,12 @@ with col2:
     st.markdown(f"### **■ 運用費用: {oper_costs:,}円**")
     st.write(f"・Fanspot月額 ({period}ヶ月): {650000*period:,}円")
     st.write(f"・事務局対応 ({j_months}ヶ月): {400000*j_months:,}円")
-    st.write(f"・ページ更新 ({update
+    st.write(f"・ページ更新 ({update}回): {1000000*update:,}円")
+
+st.divider()
+
+# 5. 🔍 算出ロジックの根拠（設定値詳細）
+st.markdown("### 🔍 算出ロジックの根拠（設定値詳細）")
+st.info(f"● Fanspot初期設定: 4,500,000円 (レシート実装含む)\n\n"
+        f"● インスタントウィン実装費: {iw_cost:,}円 (有りの場合一律300万円)\n\n"
+        f"● 目検作業費: 1,00
