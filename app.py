@@ -4,7 +4,7 @@ import streamlit as st
 st.set_page_config(page_title="マストバイCP見積もりエージェント", layout="wide")
 st.title("🎯 マストバイCP見積もりエージェント")
 
-# 2. サイドバー：条件入力（管理Noを削除し、4項目に集約）
+# 2. サイドバー：条件入力
 st.sidebar.header("📋 条件入力")
 period = st.sidebar.number_input("施策期間 (月数)", min_value=1, value=2)
 winners = st.sidebar.number_input("当選者数", min_value=0, value=10000, step=1000)
@@ -33,4 +33,6 @@ with col1:
     st.write(f"・目検作業費 ({m_count:,}枚): {m_cost:,}円")
     st.write(f"・抽選費用: 50,000円")
 with col2:
-    st.markdown(f"### **■ 運用費用: {oper_costs:,}
+    st.markdown(f"### **■ 運用費用: {oper_costs:,}円**")
+    st.write(f"・Fanspot月額 ({period}ヶ月): {650000*period:,}円")
+    st.write(f"・事務局対応 ({
