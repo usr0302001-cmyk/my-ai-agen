@@ -43,4 +43,12 @@ st.divider()
 
 # 6. 算出ロジックの根拠
 st.markdown("### 🔍 算出ロジックの根拠（設定値詳細）")
-st.info(f"● Fans
+st.info(f"● Fanspot初期設定: 4,500,000円 (レシート実装含む)")
+st.info(f"● インスタントウィン実装費: {iw_cost:,}円")
+st.info(f"● 目検作業費: 1,000円 × {m_count:,}枚 (当選者数の2倍)")
+st.info("● Fanspot月額: 650,000円 / 事務局月額: 400,000円")
+st.info(f"● 事務局対応期間: 施策期間 ＋ 1ヶ月 ({j_months}ヶ月分)")
+st.info(f"● ページ更新費: 1,000,000円 × {update}回")
+
+# 7. ⚠️ 重要な注釈
+st.warning("⚠️ **注釈：上記見積には、LP制作費用、告知LINE
