@@ -12,13 +12,13 @@ winners = st.sidebar.number_input("当選者数", min_value=0, value=10000, step
 is_iw = st.sidebar.radio("インスタントウィン", ["有り", "無し"])
 update = st.sidebar.number_input("ページ更新回数", min_value=0, value=1)
 
-# 3. 見積計算ロジック
+# 3. 見積計算ロジック（固定レートによる高精度算出）
 j_months = period + 1
 m_count = winners * 2
 m_cost = m_count * 1000
 iw_cost = 3000000 if is_iw == "有り" else 0
 
-# 各費用の計算
+# 各種費用の計算
 init_costs = 3500000 + 1000000 + iw_cost + m_cost + 50000
 oper_costs = (650000 * period) + (400000 * j_months) + (1000000 * update)
 total_cost = init_costs + oper_costs
@@ -42,7 +42,14 @@ with col2:
 st.divider()
 
 # 5. 🔍 算出ロジックの根拠（設定値詳細）
+# エラー回避のため、一文ずつ確実に閉じる安全な形式に変更しています
 st.markdown("### 🔍 算出ロジックの根拠（設定値詳細）")
-st.info(f"● Fanspot初期設定: 4,500,000円 (レシート実装含む)\n\n"
-        f"● インスタントウィン実装費: {iw_cost:,}円 (有りの場合一律300万円)\n\n"
-        f"● 目検作業費: 1,00
+st.info(f"● Fanspot初期設定: 4,500,000円 (レシート実装含む)")
+st.info(f"● インスタントウィン実装費: {iw_cost:,}円 (有りの場合一律300万円)")
+st.info(f"● 目検作業費: 1,000円 × {m_count:,}枚 (当選者数の2倍を計上)")
+st.info(f"● Fanspot月額: 650,000円 / 事務局月額: 400,000円")
+st.info(f"● 事務局対応期間: 施策期間 ＋ 1ヶ月 ({j_months}ヶ月分)")
+st.info(f"● ページ更新費: 1,000,000円 × {update}回")
+
+# 6. ⚠️ 重要な注釈（LP・LINE・賞品代除外）
+st.warning("⚠️ **注釈：上記見積には、LP制作費用、告知LINE配信費用、および賞品代は含まれておりません。**")
