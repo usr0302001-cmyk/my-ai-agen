@@ -25,7 +25,7 @@ total_cost = init_costs + oper_costs
 # 4. メイン画面：見積合計の表示
 st.header(f"合計費用（税抜）: {total_cost:,}円")
 
-# 5. 詳細内訳
+# 5. 詳細内訳（カラム分け）
 col1, col2 = st.columns(2)
 with col1:
     st.markdown("### **■ 初期費用**")
@@ -41,14 +41,14 @@ with col2:
 
 st.divider()
 
-# 6. 算出ロジックの根拠
-st.markdown("### 🔍 算出ロジックの根拠（設定値詳細）")
-st.info(f"● Fanspot初期設定: 4,500,000円 (レシート実装含む)")
+# 6. 算出ロジックの根拠（個別に記述してエラーを防止）
+st.markdown("### 🔍 算出ロジックの根拠")
+st.info(f"● Fanspot初期設定: 4,500,000円 (初期350万 + レシート実装100万)")
 st.info(f"● インスタントウィン実装費: {iw_cost:,}円")
 st.info(f"● 目検作業費: 1,000円 × {m_count:,}枚 (当選者数の2倍)")
 st.info("● Fanspot月額: 650,000円 / 事務局月額: 400,000円")
 st.info(f"● 事務局対応期間: 施策期間 ＋ 1ヶ月 ({j_months}ヶ月分)")
 st.info(f"● ページ更新費: 1,000,000円 × {update}回")
 
-# 7. ⚠️ 重要な注釈
-st.warning("⚠️ **注釈：上記見積には、LP制作費用、告知LINE
+# 7. ⚠️ 重要な注釈（途切れないようにシンプルに記述）
+st.warning("⚠️ **注釈：上記見積には、LP制作費用、告知LINE配信費用、および賞品代は含まれておりません。**")
